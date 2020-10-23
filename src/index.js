@@ -107,27 +107,64 @@ const nodesHierarchy = {
   ]
 };
 
-function renderTree(tree, element) {
-  const li = document.createElement('li');
-  li.innerText = tree.label;
-  element.append(li);
+function renderTree(tree) {
+  if (tree.length === 0) return null;
 
-  if (tree.children.length) {
-    const ul = document.createElement('ul');
-    li.append(ul);
+  const ul = document.createElement('ul');
 
-    for (let i = 0; i < tree.children.length; i += 1) {
-      renderTree(tree.children[i], ul)
-    }
-  }
+  tree.forEach(element => {
+    const li = document.createElement('li');
+    li.innerHTML = element.label;
+    ul.append(li);
+
+    const subTree = renderTree(element.children);
+    if (subTree !== null) ul.append(subTree);
+  })
+
+  return ul;
 }
 
-// const browser = renderTree(browserTree, document.getElementById("root"));
-// const node = renderTree( nodesHierarchy, document.getElementById('root'));
+function flattenObj(tree) {
+  let result = [];
+  result.push(tree.label);
 
-// export { browser, node }
+  function nextLevel(el) {
+    return result.push(el.label)
+  }
+
+  
+  if (tree.children.length) {
+    tree.children.forEach(node => {
+      nextLevel(node);
+
+      if (node.children.length) {
+        node.children.forEach(element => {
+          nextLevel(element);
+        })
+      }
+    })
+  }
+  return result;
+}
+
+function TreeToList(arrayTree) {
+  const ol = document.createElement('ol');
+  arrayTree.forEach(element => {
+    const li = document.createElement('li');
+    li.innerHTML = element;
+    ol.append(li)
+  })
+  return ol;
+}
 
 export function renderPage() {
-  const browserTreeList = renderTree(browserTree, document.getElementById("root"));
-  const nodesHierarchyList = renderTree(nodesHierarchy, document.getElementById("root"));
+  const root = document.getElementById("root");
+  const flatBrowser = flattenObj(browserTree);
+  const flatNode = flattenObj(nodesHierarchy);
+
+  root.append(renderTree([browserTree]));
+  root.append(renderTree([nodesHierarchy]));
+  root.append(TreeToList(flatBrowser));
+  root.append(TreeToList(flatNode));
 }
+

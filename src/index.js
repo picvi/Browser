@@ -1,131 +1,12 @@
-const browserTree = {
-  label: "Window",
-  children: [
-    {
-      label: "DOM - Document Object Model; DOM Tree",
-      children: [
-        {
-          label: "document",
-          children: [],
-        },
-        {
-          label: "CSSOM - CSS Object Model",
-          children: [],
-        },
-      ],
-    },
-    {
-      label: "BOM - Browser Object Model",
-      children: [
-        {
-          label: "navigator",
-          children: [],
-        },
-        {
-          label: "screen",
-          children: [],
-        },
-        {
-          label: "location",
-          children: [],
-        },
-        {
-          label: "frames",
-          children: [],
-        },
-        {
-          label: "history",
-          children: [],
-        },
-        {
-          label: "XMLHttpReques",
-          children: [],
-        },
-      ],
-    },
-    {
-      label: "JavaScript",
-      children: [
-        {
-          label: "Object",
-          children: [],
-        },
-        {
-          label: "Array",
-          children: [],
-        },
-        {
-          label: "Function",
-          children: [],
-        },
-        {
-          label: "...",
-          children: [],
-        },
-      ],
-    },
-  ],
-};
+import {browserTree} from "./trees/browserTree.js"
+import {nodesHierarchy} from "./trees/node.js"
 
-const nodesHierarchy = {
-  label: "Node",
-  children: [
-    {
-      label: "Text",
-      children: [],
-    },
-    {
-      label: "Comment",
-      children: [],
-    },
-    {
-      label: "Element",
-      children: [
-        {
-          label: "SVGElement",
-          children: [],
-        },
-        {
-          label: "HTMLElement",
-          children: [
-            {
-              label: "HTMLInputElement",
-              children: [],
-            },
-            {
-              label: "HTMLBodyElement",
-              children: [],
-            },
-            {
-              label: "HTMLAnchorElement",
-              children: [],
-            },
-          ],
-        },
-      ],
-    },
-  ]
-};
+import {renderTree, TreeToList} from "./display/treesDisplays.js"
 
-function renderTree(tree) {
-  if (tree.length === 0) return null;
-
-  const ul = document.createElement('ul');
-
-  tree.forEach(element => {
-    const li = document.createElement('li');
-    li.innerHTML = element.label;
-    ul.append(li);
-
-    const subTree = renderTree(element.children);
-    if (subTree !== null) ul.append(subTree);
-  })
-
-  return ul;
-}
 
 function flattenObj(tree) {
   let result = [];
+  
   result.push(tree.label);
 
   function nextLevel(el) {
@@ -140,22 +21,41 @@ function flattenObj(tree) {
       if (node.children.length) {
         node.children.forEach(element => {
           nextLevel(element);
+          element.children.forEach(value => nextLevel(value))
         })
       }
     })
   }
+
+  // for (const key in tree) {
+  //   if (typeof key === "object") {
+  //     for (const value in key) {
+  //       flattenObj(value)
+  //     }
+      
+  //   } else {
+  //     result.push(tree[key])
+  //   }
+  // }
+  
+
+  // for ( const key in tree) {
+  //   if (typeof tree[key] === "object") {
+  //     if (tree[key].length) {
+  //       tree[key].forEach( element => {
+  //       result.push(...element[key]);
+  //     })
+  //     }
+      
+  //   } else {
+  //     result.push(tree[key]);
+  //   }
+  // }
+  
   return result;
 }
 
-function TreeToList(arrayTree) {
-  const ol = document.createElement('ol');
-  arrayTree.forEach(element => {
-    const li = document.createElement('li');
-    li.innerHTML = element;
-    ol.append(li)
-  })
-  return ol;
-}
+
 
 export function renderPage() {
   const root = document.getElementById("root");

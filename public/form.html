@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="../src/forms.js" defer></script>
+    <link href="../style.css" rel="stylesheet">
+  </head>
+  <body>
+    <form name="registration" id="registration">
+      <fieldset>
+        <legend>Sign Up</legend>
+        <ul>
+          <li>
+            <label for="name">Name: </label>
+            <input type="text" id="name" required>
+          </li>
+
+          <li>
+            <label for="surname">Surname: </label>
+            <input type="text" id="surname" required>
+          </li>
+          
+          <li>
+            <label for="sex">Sex: </label>
+            <input type="radio" name="sex" id="male" value="Male">
+            <label for="male">Male</label>
+            <input type="radio" name="sex" id="female" value="Female">
+            <label for="female">Female</label>
+            <input type="radio" name="sex" id="other" value="Other">
+            <label for="other">Other</label>
+          </li>
+
+          <li>
+            <label for="email">E-mail: </label>
+            <input type="email" id="email" required>
+          </li>
+
+          <li>
+            <label for="birthDate">Birth Date: </label>
+            <input type="date" value="1990-01-01" required>
+          </li>
+
+          <li>
+            <select>
+              <option>Choose your University</option>
+              <option>Belarusian State University</option>
+              <option>Yanka Kupala State University of Grodno</option>
+              <option>Grodno State Medical University</option>
+              <option>Belarusian State University of Informatics and Radioelectronics</option>
+              <option>Belarusian State Economic University</option>
+              <option>Belarusian National Technical University</option>
+            </select>
+          </li>
+          <!-- <li>
+            <label for="password">Password: </label>
+            <input type="password" id="password">
+          </li> -->
+
+          <li>
+            <button id="submit">Sign up</button>
+            <!-- <input type="reset" value="Clear all"> -->
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+  </body>
+</html>

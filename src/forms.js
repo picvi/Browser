@@ -1,19 +1,19 @@
-let userData = {};
+const userData = {};
 
 function getUserData() {
   const form = document.querySelector("form").elements;
   
   for (let element of form) {
-    if (element.type === "radio") {
-      if (element.checked) {
-          userData[element.name] = element.value;
-        }
-      } else {
-        console.log("others")
+    if (element.type === "radio" && element.checked) {
+      userData[element.name] = element.value;
+    } else {
         userData[element.name] = element.value;
     }
   }
-  console.log(userData);
+  return userData;
 }
 
-document.getElementById("submit").addEventListener("click", getUserData);
+document.getElementById("submit").addEventListener("click", (event) => {
+  event.preventDefault();
+  console.log(getUserData());
+})
